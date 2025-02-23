@@ -4,10 +4,46 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kontaktní formulář</title>
+    <!-- Přidej EmailJS SDK -->
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
+      // Inicializace EmailJS
+      (function () {
+        emailjs.init("cy9mKYZ9dVJi5wlfT"); // Nahraď svým User ID z EmailJS
+      })();
+
+      function sendEmail(event) {
+        event.preventDefault(); // Zastaví odeslání formuláře
+
+        // Získání dat z formuláře
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const message = document.getElementById("message").value;
+
+        // Odeslání e-mailu
+        emailjs
+          .send("service_puo60wi", "template_f3i63mq", {
+            from_name: name,
+            from_email: email,
+            message: message,
+          })
+          .then(
+            function (response) {
+              alert("Zpráva byla úspěšně odeslána!");
+            },
+            function (error) {
+              alert("Odeslání zprávy selhalo: " + error.text);
+            }
+          );
+      }
+    </script>
   </head>
   <body>
     <h1>Kontaktní formulář</h1>
-    <form action="send_email.php" method="post">
+    <form onsubmit="sendEmail(event)">
       <label for="name">Jméno:</label><br />
       <input type="text" id="name" name="name" required /><br /><br />
 
